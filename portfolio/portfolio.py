@@ -16,10 +16,15 @@ front_api = requests.get(baseURL + "front").text
 coins = json.loads(coins_api)
 front = json.loads(front_api)
 
-# Show Coins to user
-for coin in front:
-    print('{:<20}{:.2f}'.format(coin['long'], coin['price']))
+print(type(front))
+print(type(front[0]))
+print(type(front[0]['price']))
 
+# Show Coins to user
+print('{:>20}     {:>10}'.format('Name', 'Price'))
+
+for coin in front[:3]:
+    print('{:>20} ==> {:>10.4f}'.format(coin['long'], coin['price']))
 
 # Ask for which coin they have
 
