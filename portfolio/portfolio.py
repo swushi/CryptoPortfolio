@@ -7,23 +7,19 @@ import json
 import requests
 import os
 
-# Take in API
 baseURL = "http://coincap.io/"
 
+data = [ {'coin': 'xxx', 'amount': 123} ]
+print(data)
+data.append({'coin': 'abc', 'amount': 321})
+print(data)
+
+# FUNCTIONS
 def main():
     choice = '?'
 
-# 
-    options = { 1 : add,
-                2 : delete,
-                3 : total_val,
-                4 : top_ten,
-                5 : save,
-                6 : load
-}
-
     while choice != 'q':
-        os.system("cls")
+        #os.system("cls")
         print("{:^15}".format("MENU"))
         for i in range(15): print("-", end='')
         print()
@@ -36,7 +32,13 @@ def main():
         print("q - Quit")
         print()
         choice = input("Enter in a command: ")
-        options[choice]()
+
+        #if choice == 1:
+        #elif choice == 2:
+        #elif choice == 3:
+        #elif choice == 4:
+        #elif choice == 5:
+        #elif choice == 6:
 
 
     
