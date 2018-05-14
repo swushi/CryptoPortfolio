@@ -9,8 +9,7 @@ import os
 
 baseURL = "http://coincap.io/"
 
-data = [ {'coin': 'xxx', 'amount': 123} ]
-print(data)
+data = []
 data.append({'coin': 'abc', 'amount': 321})
 print(data)
 
