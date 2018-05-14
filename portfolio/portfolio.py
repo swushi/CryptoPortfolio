@@ -10,8 +10,9 @@ import os
 baseURL = "http://coincap.io/"
 
 data = []
-data.append({'coin': 'abc', 'amount': 321})
-print(data)
+
+def add(coin, amount):
+    data.append({'coin': coin, 'amount': amount})
 
 # FUNCTIONS
 def main():
@@ -32,14 +33,18 @@ def main():
         print()
         choice = input("Enter in a command: ")
 
-        #if choice == 1:
+        if choice == '1':
+          coin = input("Enter the name of the coin: ")
+          amount = input("Enter the amount: ")
+          add(coin, amount)
         #elif choice == 2:
         #elif choice == 3:
         #elif choice == 4:
         #elif choice == 5:
         #elif choice == 6:
 
-
+        for cn in data:
+          print(cn)
     
     
 main()
