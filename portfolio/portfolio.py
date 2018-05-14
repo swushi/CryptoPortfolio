@@ -11,6 +11,10 @@ baseURL = "http://coincap.io/"
 
 data = []
 
+# This function will find the 3 letter code
+# given to a currency with any input
+#def find_code(name):
+
 def add(coin, amount):
     data.append({'coin': coin, 'amount': amount})
 
