@@ -7,18 +7,35 @@ import json
 import requests
 import os
 
+print("Loading in initial data..")
+
 baseURL = "http://coincap.io/"
+map = json.loads(requests.get(baseURL + "map").text)
+print(map[0])
+print(map[0]['name'])
+
 
 data = []
 
 # This function will find the 3 letter code
 # given to a currency with any input
-#def find_code(name):
+
+# FUNCTIONS
+def find_ticker(name):
+    if len(name) > 4:
+        for coin in map:
+            if coin.get('name', '').lower() == name.lower():
+                return coin.get('symbol', 'N/A')
+            
 
 def add(coin, amount):
     data.append({'coin': coin, 'amount': amount})
 
-# FUNCTIONS
+#def remove(coin, amount):
+#    for coin in data:
+    
+    
+
 def main():
     choice = '?'
 
