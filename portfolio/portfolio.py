@@ -17,9 +17,6 @@ data = []
 # This function will find the 3 letter code
 # given to a currency with any input
 
-def data_has():
-   
-
 # FUNCTIONS
 def find_ticker(name):
   if len(name) > 4:
@@ -35,6 +32,11 @@ def find_ticker(name):
 def add(coin, amount):
   ticker = find_ticker(coin)
   if ticker != None:
+    for cn in data:
+      if cn['ticker'] == ticker:
+        newamount = float(cn['amount']) + float(amount)
+        cn.update({'ticker': ticker, 'amount': float(newamount)})
+        return
     data.append({'ticker': ticker, 'amount': float(amount)})
 
 def remove(coin, amount):
