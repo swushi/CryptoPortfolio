@@ -11,35 +11,40 @@ print("Loading in initial data..")
 
 baseURL = "http://coincap.io/"
 map = json.loads(requests.get(baseURL + "map").text)
-print(map[0])
-print(map[0]['name'])
-
 
 data = []
 
 # This function will find the 3 letter code
 # given to a currency with any input
 
+def data_has():
+   
+
 # FUNCTIONS
 def find_ticker(name):
-    if len(name) > 4:
-        for coin in map:
-            if coin.get('name', '').lower() == name.lower():
-                return coin.get('symbol', 'N/A')
-    if len(name) <= 4:
-        for coin in map:
-            if coin.get('symbol', '').lower() == name.lower():
-                return coin.get('symbol', 'N/A')
+  if len(name) > 4:
+    for coin in map:
+      if coin.get('name', '').lower() == name.lower():
+        return coin.get('symbol')
+  elif len(name) <= 4:
+    for coin in map:
+      if coin.get('symbol', '').lower() == name.lower():
+        return coin.get('symbol')
             
 
 def add(coin, amount):
-    data.append({'ticker': coin, 'amount': amount})
+  ticker = find_ticker(coin)
+  if ticker != None:
+    data.append({'ticker': ticker, 'amount': float(amount)})
 
-#def remove(coin, amount):
-#    for coin in data:
+def remove(coin, amount):
+  for cn in data:
+      if cn.get('ticker', '') == find_ticker(coin):
+          newamount = float(cn.get('amount')) - float(amount)
+          if newamount < 0 : newamount = 0
+          newcoin = {'ticker': find_ticker(coin), 'amount': newamount}
+          cn.update(newcoin)
     
-    
-
 def main():
     choice = '?'
 
@@ -49,7 +54,7 @@ def main():
         for i in range(15): print("-", end='')
         print()
         print("1 - Add coin")
-        print("2 - Delete Coin")
+        print("2 - Remove Coin")
         print("3 - Portfolio Value")
         print("4 - List top 10 coins, their value and volume")
         print("5 - Save data")
@@ -62,7 +67,10 @@ def main():
           coin = input("Enter the name of the coin: ")
           amount = input("Enter the amount: ")
           add(coin, amount)
-        #elif choice == 2:
+        elif choice == '2':
+          coin = input("Enter the name of the coin: ")
+          amount = input("Enter the amount: ")
+          remove(coin, amount)
         #elif choice == 3:
         #elif choice == 4:
         #elif choice == 5:
