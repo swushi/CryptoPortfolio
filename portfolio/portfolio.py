@@ -26,10 +26,14 @@ def find_ticker(name):
         for coin in map:
             if coin.get('name', '').lower() == name.lower():
                 return coin.get('symbol', 'N/A')
+    if len(name) <= 4:
+        for coin in map:
+            if coin.get('symbol', '').lower() == name.lower():
+                return coin.get('symbol', 'N/A')
             
 
 def add(coin, amount):
-    data.append({'coin': coin, 'amount': amount})
+    data.append({'ticker': coin, 'amount': amount})
 
 #def remove(coin, amount):
 #    for coin in data:
