@@ -46,7 +46,15 @@ def remove(coin, amount):
           if newamount < 0 : newamount = 0
           newcoin = {'ticker': find_ticker(coin), 'amount': newamount}
           cn.update(newcoin)
+
+def write():
+  with open('portfolio.json', 'w') as out_file:
+    json.dump(data, out_file)
     
+def load():
+  with open('portfolio.json', 'r') as json_file:
+    return json.load(json_file)
+
 def main():
     choice = '?'
 
@@ -73,13 +81,18 @@ def main():
           coin = input("Enter the name of the coin: ")
           amount = input("Enter the amount: ")
           remove(coin, amount)
+        elif choice == '5':
+          write()
+        elif choice == '6':
+          newdata = load()
+          print(newdata)
+          data = newdata[:]
         #elif choice == 3:
         #elif choice == 4:
         #elif choice == 5:
         #elif choice == 6:
 
         for cn in data:
-          print(cn)
-    
+          print(cn)    
     
 main()
