@@ -46,6 +46,14 @@ class Portfolio:
         newcoin = {'ticker': self.find_ticker(coin), 'amount': newamount}
         cn.update(newcoin)
 
+  def write(self):
+    with open('portfolio.json', 'w') as file:
+      json.dump(self.data, file)
+
+  def load(self):
+    with open('portfolio.json', 'r') as file:
+      self.data = json.load(file)
+
 def main():
     myPF = Portfolio()
 
@@ -74,6 +82,10 @@ def main():
           coin = input("Enter the name of the coin: ")
           amount = input("Enter the amount: ")
           myPF.remove(coin, amount)
+        elif choice == '5':
+          myPF.write()
+        elif choice == '6':
+          myPF.load()
 
 
         myPF.show()
