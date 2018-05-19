@@ -1,8 +1,6 @@
-# This program will be track the my portfolio
-# and give me useful data such as the current
-# value and percent change
-# Python version 3.6.5
-# Plan to add QT GUI integration eventually
+# This is going to be my remake of my
+# portfolio with a class this time
+
 import json
 import requests
 import os
@@ -12,50 +10,53 @@ print("Loading in initial data..")
 baseURL = "http://coincap.io/"
 map = json.loads(requests.get(baseURL + "map").text)
 
-data = []
+class Portfolio:
+  def __init__(self):
+    self.data = []
 
-# This function will find the 3 letter code
-# given to a currency with any input
+  def find_ticker(self, name):
+    if len(name) > 4:
+      for coin in map:
+        if coin.get('name', '').lower() == name.lower():
+          return coin.get('symbol')
+    elif len(name) <= 4:
+      for coin in map:
+        if coin.get('symbol', '').lower() == name.lower():
+          return coin.get('symbol')
 
-# FUNCTIONS
-def find_ticker(name):
-  if len(name) > 4:
-    for coin in map:
-      if coin.get('name', '').lower() == name.lower():
-        return coin.get('symbol')
-  elif len(name) <= 4:
-    for coin in map:
-      if coin.get('symbol', '').lower() == name.lower():
-        return coin.get('symbol')
-            
+  def show(self):
+    for cn in self.data:
+      print(cn)
 
-def add(coin, amount):
-  ticker = find_ticker(coin)
-  if ticker != None:
-    for cn in data:
-      if cn['ticker'] == ticker:
-        newamount = float(cn['amount']) + float(amount)
-        cn.update({'ticker': ticker, 'amount': float(newamount)})
-        return
-    data.append({'ticker': ticker, 'amount': float(amount)})
+  def add(self, coin, amount):
+    ticker = self.find_ticker(coin)
+    if ticker != None:
+      for cn in self.data:
+        if cn['ticker'] == ticker:
+          newamount = float(cn['amount']) + float(amount)
+          cn.update({'ticker': ticker, 'amount': float(newamount)})
+          return
+      self.data.append({'ticker': ticker, 'amount': float(amount)})
 
-def remove(coin, amount):
-  for cn in data:
-      if cn.get('ticker', '') == find_ticker(coin):
-          newamount = float(cn.get('amount')) - float(amount)
-          if newamount < 0 : newamount = 0
-          newcoin = {'ticker': find_ticker(coin), 'amount': newamount}
-          cn.update(newcoin)
+  def remove(self, coin, amount):
+    for cn in self.data:
+      if cn.get('ticker', '') == self.find_ticker(coin):
+        newamount = float(cn.get('amount')) - float(amount)
+        if newamount < 0 : newamount = 0
+        newcoin = {'ticker': self.find_ticker(coin), 'amount': newamount}
+        cn.update(newcoin)
 
-def write():
-  with open('portfolio.json', 'w') as out_file:
-    json.dump(data, out_file)
-    
-def load():
-  with open('portfolio.json', 'r') as json_file:
-    return json.load(json_file)
+  def write(self):
+    with open('portfolio.json', 'w') as file:
+      json.dump(self.data, file)
+
+  def load(self):
+    with open('portfolio.json', 'r') as file:
+      self.data = json.load(file)
 
 def main():
+    myPF = Portfolio()
+
     choice = '?'
 
     while choice != 'q':
@@ -76,23 +77,17 @@ def main():
         if choice == '1':
           coin = input("Enter the name of the coin: ")
           amount = input("Enter the amount: ")
-          add(coin, amount)
+          myPF.add(coin, amount)
         elif choice == '2':
           coin = input("Enter the name of the coin: ")
           amount = input("Enter the amount: ")
-          remove(coin, amount)
+          myPF.remove(coin, amount)
         elif choice == '5':
-          write()
+          myPF.write()
         elif choice == '6':
-          newdata = load()
-          print(newdata)
-          data = newdata[:]
-        #elif choice == 3:
-        #elif choice == 4:
-        #elif choice == 5:
-        #elif choice == 6:
+          myPF.load()
 
-        for cn in data:
-          print(cn)    
-    
+
+        myPF.show()
+
 main()
